@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  wp:
+    image: wordpress:php7.2-apache
+    restart: always
+    ports:
+      - 8090:80
+    environment:
+      WORDPRESS_DB_HOST: wpdb
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: cslroot
+      WORDPRESS_DB_NAME: wp
+    volumes:
+      - /home/sandbox/joncatlin/docker-volumes/wp:/var/www/html
+    networks:
+      - wp-net
+
+  wpdb:
+    image: mysql:5.7.21
+    restart: always
+    environment:
+      MYSQL_DATABASE: wp
+      MYSQL_ROOT_PASSWORD: cslroot
+    volumes:
+      - /home/sandbox/joncatlin/docker-volumes/wpdb:/var/lib/mysql
+    networks:
+      - wp-net
+
+networks:
+  wp-net:
